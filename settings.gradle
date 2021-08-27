@@ -1,0 +1,6 @@
+rootProject.name = 'petclinic-cloud'
+
+include 'petclinic-service:petclinic-service-common'
+include 'petclinic-service:petclinic-customer-service'
+include 'petclinic-service:petclinic-veterinarian-service'
+include 'petclinic-service:petclinic-visit-service'

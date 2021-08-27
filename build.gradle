@@ -1,0 +1,115 @@
+// [Gradle: build.gradle vs. settings.gradle vs. gradle.properties] https://www.baeldung.com/gradle-build-settings-properties
+
+// [Multi Project]
+// https://jojoldu.tistory.com/123
+// https://github.com/jojoldu/blog-code/tree/master/gradle-multi-modules
+
+// [멀티 프로젝트에서 특정 프로젝트만 빌드]
+// gradle :petclinic-service:petclinic-vets-service:build
+// [Gradle build only one module] https://stackoverflow.com/questions/16976214/gradle-build-only-one-module
+
+plugins {
+    id 'org.springframework.boot' version "$springBootVersion" apply false // [apply false] https://blog.weirdx.io/post/48570
+    id 'io.spring.dependency-management' version "$springDependencyManagementVersion" apply false
+    id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10' apply false
+}
+
+allprojects {
+    group = 'petclinic'
+    version = '0.0.1-SNAPSHOT'
+
+    configurations {
+        all {
+            // 제외 처리 필요한 라이브러리 파일 설정
+            // exclude group: 'commons-logging'
+            // exclude module: 'slf4j-log4j12'
+            // https://gmind.tistory.com/entry/%EC%9E%91%EC%97%85%EC%A4%91-44-Gradle-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-with-%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8-%EC%9D%98%EC%A1%B4%EC%84%B1%EC%84%A4%EC%A0%95%EA%B4%80%EB%A6%AC
+            // https://kwonnam.pe.kr/wiki/gradle/dependencies
+            resolutionStrategy {
+                // 라이브러리 버전 충돌시 에러 경고
+                // failOnVersionConflict()
+                // 모듈 변경 라이브러리 버전(SNAPSHOT) 캐쉬 없음
+                cacheChangingModulesFor 0, 'seconds'
+                // 동적 버전 라이브러리 버전은 10분만 캐쉬
+                cacheDynamicVersionsFor 10 * 60, 'seconds'
+            }
+        }
+    }
+}
+
+subprojects {
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'java-library' // https://jjhwqqq.tistory.com/231
+    apply plugin: 'java'
+
+    sourceCompatibility = '11'
+    targetCompatibility = '11'
+
+//    repositories {
+//        maven {
+//            url = 'http://localhost/nexus/repository/maven-public/'
+//            allowInsecureProtocol = true
+//        }
+//    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        // Lombok
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok' // https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=vefe&logNo=222072718782
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+}
+
+// https://stackoverflow.com/questions/27679044/gradle-custom-task-only-applied-to-certain-subprojects
+configure(subprojects.findAll { it.name.endsWith('service') }) {
+    apply plugin: 'com.ewerk.gradle.plugins.querydsl'
+
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
+        implementation 'com.querydsl:querydsl-jpa'
+        implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.7.1'
+
+        api project(':petclinic-service:petclinic-service-common')
+
+        runtimeOnly 'com.h2database:h2'
+    }
+
+    bootJar {
+        enabled = true
+    }
+
+    //querydsl 추가 시작
+    def querydslDir = "$buildDir/generated/querydsl"
+
+    querydsl {
+        jpa = true
+        querydslSourcesDir = querydslDir
+    }
+
+    sourceSets {
+        main.java.srcDir querydslDir
+    }
+
+    configurations {
+        querydsl.extendsFrom compileClasspath
+    }
+
+    compileQuerydsl {
+        options.annotationProcessorPath = configurations.querydsl
+    }
+
+    clean {
+        delete file(querydslDir)
+    }
+    //querydsl 추가 끝
+}

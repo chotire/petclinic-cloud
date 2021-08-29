@@ -31,7 +31,7 @@ public class Veterinarian {
     @ManyToMany
     @JoinTable(name = "VETERINARIAN_SPECIALTY", joinColumns = @JoinColumn(name = "VETERINARIAN_ID"),
             inverseJoinColumns = @JoinColumn(name = "SPECIALTY_ID"))
-//    @JoinTable(name = "VETERINARIAN_SPECIALTY")
+    @OrderBy("NAME ASC")
     private List<Specialty> specialties = new ArrayList<>();
 //    private Set<Specialty> specialties = new HashSet<>();
 

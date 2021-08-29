@@ -6,6 +6,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 
 public final class BaseAuditEntityListener {
     @PreUpdate
@@ -25,7 +26,7 @@ public final class BaseAuditEntityListener {
     }
 
     private String getRemoteAddr() {
-        HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
         return request.getRemoteAddr();
     }
 }

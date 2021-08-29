@@ -20,8 +20,9 @@ class PetController {
 
     @GetMapping("/pet-types")
     List<PetType> getPetTypes() {
-        List<PetType> petTypes = Stream.of(PetType.values()).collect(Collectors.toList());
-        Collections.sort(petTypes, Comparator.comparing(PetType::getName));
+        List<PetType> petTypes = Stream.of(PetType.values())
+                .sorted(Comparator.comparing(PetType::getName))
+                .collect(Collectors.toList());
         return petTypes;
     }
 

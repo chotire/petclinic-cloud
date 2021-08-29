@@ -1,6 +1,5 @@
 package petclinic.customer.web;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import petclinic.customer.entity.Pet;

@@ -43,11 +43,6 @@ public class Owner extends BaseAuditEntity {
     @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
     private List<Pet> pets = new ArrayList<>();
 
-    public void addPet(Pet pet) {
-        pets.add(pet);
-        pet.setOwner(this);
-    }
-
     @Override
     public String toString() {
         return new ToStringCreator(this)

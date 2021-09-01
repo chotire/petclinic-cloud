@@ -9,3 +9,7 @@ spring:
       server:
         git:
           uri: file:///Users/yongsang/Development/workspaces/java/petclinic-cloud/petclinic-cloud-config
+#          uri: file:///Users/yongsang/Development/workspaces/java/petclinic-cloud-config
+          search-paths:
+# https://gist.github.com/emrekgn/93fab341cbe29ea54e866e51001a5f5c#file-a-spring-cloud-config-server-application-yml-L14
+# search-paths 를 주면 petclinic-cloud에서도 있어도 되지 않을까?

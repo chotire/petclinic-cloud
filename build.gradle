@@ -123,3 +123,9 @@ configure(subprojects.findAll { it.name.endsWith('service') }) {
     }
     //querydsl 추가 끝
 }
+
+configure(subprojects.findAll { !it.name.endsWith('server') }) {
+    dependencies {
+        implementation 'org.springframework.cloud:spring-cloud-starter-config'
+    }
+}

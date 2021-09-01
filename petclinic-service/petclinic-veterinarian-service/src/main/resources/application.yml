@@ -7,6 +7,11 @@ spring:
   application:
     name: petclinic-veterinarian-service
   config:
-    import: classpath:petclinic-common.yml # http://honeymon.io/tech/2021/01/16/spring-boot-config-data-migration.html, https://www.baeldung.com/properties-with-spring
+    import:
+      - classpath:petclinic-common.yml # http://honeymon.io/tech/2021/01/16/spring-boot-config-data-migration.html, https://www.baeldung.com/properties-with-spring
+      - optional:configserver:http://localhost:8888
+  cloud:
+    config:
+      name: abc, petclinic-cloudd
   datasource:
     url: jdbc:h2:tcp://localhost/~/Development/database/petclinic-veterinarian

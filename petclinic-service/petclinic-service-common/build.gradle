@@ -3,6 +3,7 @@ apply plugin: 'com.ewerk.gradle.plugins.querydsl'
 dependencies {
     compileOnly 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compileOnly 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     compileOnly 'com.querydsl:querydsl-jpa'
 }
 

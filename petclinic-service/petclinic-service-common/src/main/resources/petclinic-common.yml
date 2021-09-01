@@ -1,7 +1,7 @@
 spring:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
-    open-in-view: true # https://kingbbode.tistory.com/27, https://gracelove91.tistory.com/100
+    open-in-view: true # https://catsbi.oopy.io/eedf92ff-8834-458d-86e4-0ed2e01b5971
     show-sql: false
     hibernate:
       ddl-auto: none # none | validate | update | create | create-drop
@@ -20,3 +20,12 @@ spring:
     hikari:
       minimumIdle: 3
       maximumPoolSize: 10
+
+eureka:
+#  instance:
+#    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka

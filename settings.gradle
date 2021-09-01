@@ -4,3 +4,7 @@ include 'petclinic-service:petclinic-service-common'
 include 'petclinic-service:petclinic-customer-service'
 include 'petclinic-service:petclinic-veterinarian-service'
 include 'petclinic-service:petclinic-visit-service'
+include 'petclinic-discovery-server'
+include 'petclinic-api-gateway'
+include 'petclinic-config-server'
+

@@ -6,7 +6,12 @@ server:
 spring:
   application:
     name: petclinic-customer-service
+  cloud:
+    config:
+      name: petclinic-service-common, ${spring.application.name}
+      fail-fast: true
   config:
-    import: classpath:petclinic-common.yml # http://honeymon.io/tech/2021/01/16/spring-boot-config-data-migration.html, https://www.baeldung.com/properties-with-spring
+    import:
+      - optional:configserver:http://localhost:8888
   datasource:
-    url: jdbc:h2:tcp://localhost/~/Development/database/petclinic-customer
+    url: jdbc:h2:tcp://localhost/./petclinic-customer

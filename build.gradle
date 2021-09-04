@@ -58,7 +58,8 @@ subprojects {
     }
 
     dependencies {
-        // Lombok
+        api project(':petclinic-framework')
+
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok' // https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=vefe&logNo=222072718782
 
@@ -85,7 +86,11 @@ configure(subprojects.findAll { it.name.endsWith('service') }) {
         implementation 'org.springframework.boot:spring-boot-starter-web'
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
         implementation 'org.springframework.boot:spring-boot-starter-validation'
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
         implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+        implementation 'org.springframework.cloud:spring-cloud-starter-config'
+        // 개발할 때는 일단 bus, monitor 의존성 없이..
+//        implementation 'org.springframework.cloud:spring-cloud-starter-bus-kafka'
         implementation 'com.querydsl:querydsl-jpa'
         implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.7.1'
 
@@ -124,8 +129,8 @@ configure(subprojects.findAll { it.name.endsWith('service') }) {
     //querydsl 추가 끝
 }
 
-configure(subprojects.findAll { !it.name.endsWith('server') }) {
-    dependencies {
-        implementation 'org.springframework.cloud:spring-cloud-starter-config'
-    }
-}
+//configure(subprojects.findAll { !it.name.endsWith('server') }) {
+//    dependencies {
+//        implementation 'org.springframework.cloud:spring-cloud-starter-config'
+//    }
+//}

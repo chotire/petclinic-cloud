@@ -1,3 +1,6 @@
 dependencies {
     implementation 'org.springframework.cloud:spring-cloud-config-server'
+    // 개발할 때는 일단 bus, monitor 의존성 없이..
+//    implementation 'org.springframework.cloud:spring-cloud-starter-bus-kafka'
+//    implementation 'org.springframework.cloud:spring-cloud-config-monitor'
 }

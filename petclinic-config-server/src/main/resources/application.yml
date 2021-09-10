@@ -19,3 +19,18 @@ spring:
 #        enabled: true
   kafka:
     bootstrap-servers: http://localhost:9091
+
+eureka:
+  #  instance:
+  #    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+encrypt:
+  key-store:
+    location: file://${project.root.dir}/petclinic-keystore/privateKey.jks
+    password: test1234
+    alias: privateKey
+#  key: aaaa1111
+

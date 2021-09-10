@@ -1,12 +1,12 @@
 package petclinic.service.jpa;
 
+import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Objects;
 
 public final class BaseAuditEntityListener {
     @PreUpdate
@@ -26,7 +26,11 @@ public final class BaseAuditEntityListener {
     }
 
     private String getRemoteAddr() {
-        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-        return request.getRemoteAddr();
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        if (requestAttributes == null) {
+            return "0.0.0.0";
+        }
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        return request.getRemoteAddr().startsWith("0:") ? "127.0.0.1" : request.getRemoteAddr();
     }
 }

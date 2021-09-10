@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter
+@ToString
 public class Visit extends BaseAuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,4 +30,7 @@ public class Visit extends BaseAuditEntity {
     @Column
     @Setter
     private int petId;
+
+    @Column
+    private int veterinarianId;
 }

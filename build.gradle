@@ -62,6 +62,7 @@ subprojects {
 
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok' // https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=vefe&logNo=222072718782
+        annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
@@ -87,10 +88,16 @@ configure(subprojects.findAll { it.name.endsWith('service') }) {
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
         implementation 'org.springframework.boot:spring-boot-starter-validation'
         implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
         implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
         implementation 'org.springframework.cloud:spring-cloud-starter-config'
-        // 개발할 때는 일단 bus, monitor 의존성 없이..
-//        implementation 'org.springframework.cloud:spring-cloud-starter-bus-kafka'
+        implementation 'org.springframework.cloud:spring-cloud-starter-bus-kafka'
+        implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+        implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
+        implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+        implementation 'org.springframework.cloud:spring-cloud-starter-zipkin:2.2.8.RELEASE'
+
+//        implementation 'io.github.resilience4j:resilience4j-feign'
         implementation 'com.querydsl:querydsl-jpa'
         implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.7.1'
 

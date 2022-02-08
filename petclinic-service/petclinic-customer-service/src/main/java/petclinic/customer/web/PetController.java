@@ -1,5 +1,6 @@
 package petclinic.customer.web;
 
+import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -8,13 +9,15 @@ import petclinic.customer.entity.Pet;
 import petclinic.customer.entity.PetType;
 import petclinic.customer.service.PetService;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@Timed("petclinic.pet")
 class PetController {
     private final PetService petService;
 

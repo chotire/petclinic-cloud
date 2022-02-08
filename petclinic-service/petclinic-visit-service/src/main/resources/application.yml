@@ -6,19 +6,23 @@ server:
 spring:
   application:
     name: petclinic-visit-service
+  config:
+    import: 'configserver:'
   cloud:
     config:
       name: petclinic-service-common, ${spring.application.name}
       fail-fast: true
-      # TODO 적용해보기..
-#      discovery:
-#        service-id: petclinic-config-server
-#        enabled: true
-  # 이 설정은 불필요한 거 아닌가??
-  config:
-    import:
-      - optional:configserver:http://localhost:8888
+      discovery:
+        service-id: petclinic-config-server
+        enabled: true
 
 #logging:
 #  level:
+#    org.springframework.cloud.openfeign: debug
+#    feign: debug
 #    io.github.resilience4j: debug
+
+# TODO config ecrypt 적용
+# TODO spring security 및 api gateway 인증 처리??
+#  - OAuth2
+# TODO cache 는?

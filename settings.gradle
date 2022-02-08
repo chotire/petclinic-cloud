@@ -7,5 +7,4 @@ include 'petclinic-service:petclinic-visit-service'
 include 'petclinic-discovery-server'
 include 'petclinic-api-gateway'
 include 'petclinic-config-server'
-include 'petclinic-framework'
-
+include 'petclinic-core'

@@ -58,7 +58,7 @@ subprojects {
     }
 
     dependencies {
-        api project(':petclinic-framework')
+        api project(':petclinic-core')
 
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok' // https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=vefe&logNo=222072718782
@@ -97,6 +97,10 @@ configure(subprojects.findAll { it.name.endsWith('service') }) {
         implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
         implementation 'org.springframework.cloud:spring-cloud-starter-zipkin:2.2.8.RELEASE'
 
+        // WARN Spring Cloud LoadBalancer is currently working with the default cache. You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+        implementation 'com.github.ben-manes.caffeine:caffeine'
+
+        implementation 'io.micrometer:micrometer-registry-prometheus'
 //        implementation 'io.github.resilience4j:resilience4j-feign'
         implementation 'com.querydsl:querydsl-jpa'
         implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.7.1'

@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active: native # git 서버를 사요알 경우 profiles.active 삭제
+    active: native # git 서버를 사용할 경우 profiles.active 삭제
   application:
     name: petclinic-config-server
   cloud:
@@ -13,10 +13,10 @@ spring:
           search-locations: file://${project.root.dir}/petclinic-cloud-config
 #        git:
 #          uri: file:///Users/yongsang/Development/workspaces/java/petclinic-cloud-config
-#    bus: # 아래 설정은 기본이 true
-#      enabled: true
-#      refresh:
-#        enabled: true
+    bus: # 아래 설정은 기본이 true
+      enabled: true
+      refresh:
+        enabled: true
   kafka:
     bootstrap-servers: http://localhost:9091
 

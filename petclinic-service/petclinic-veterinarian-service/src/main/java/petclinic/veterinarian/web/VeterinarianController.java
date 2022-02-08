@@ -1,5 +1,6 @@
 package petclinic.veterinarian.web;
 
+import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Timed("petclinic.veterinarian")
 class VeterinarianController {
     private final VeterinarianRepository repository;
 

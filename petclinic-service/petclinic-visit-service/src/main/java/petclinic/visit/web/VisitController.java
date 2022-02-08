@@ -1,6 +1,7 @@
 package petclinic.visit.web;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-//@Timed("petclinic.visit")
+@Timed("petclinic.visit")
 @Slf4j
 class VisitController {
     private final VisitRepository repository;

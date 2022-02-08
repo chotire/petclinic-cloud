@@ -1,0 +1,40 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: customer
+          uri: lb://petclinic-customer-service
+          predicates:
+            - Path=/customer/**
+        - id: veterinarian
+          uri: lb://petclinic-veterinarian-service
+          predicates:
+            - Path=/veterinarian/**
+        - id: visit
+          uri: lb://petclinic-visit-service
+          predicates:
+            - Path=/visit/**
+  kafka:
+    bootstrap-servers: http://localhost:9091
+  sleuth:
+    sampler:
+      probability: 1.0
+  zipkin:
+    base-url: http://127.0.0.1:9411
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+logging:
+  level:
+    org.springframework.cloud.gateway.handler.RoutePredicateHandlerMapping: debug

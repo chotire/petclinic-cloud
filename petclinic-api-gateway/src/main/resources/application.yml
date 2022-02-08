@@ -4,25 +4,12 @@ server:
 spring:
   application:
     name: petclinic-api-gateway
+  config:
+    import: 'configserver:'
   cloud:
-    gateway:
-      routes:
-        - id: customer
-          uri: lb://petclinic-customer-service
-          predicates:
-            - Path=/customer/**
-        - id: veterinarian
-          uri: lb://petclinic-veterinarian-service
-          predicates:
-            - Path=/veterinarian/**
-        - id: visit
-          uri: lb://petclinic-visit-service
-          predicates:
-            - Path=/visit/**
-
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka
+    config:
+      name: ${spring.application.name}
+      fail-fast: true
+      discovery:
+        service-id: petclinic-config-server
+        enabled: true

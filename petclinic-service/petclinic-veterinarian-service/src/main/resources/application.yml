@@ -6,10 +6,12 @@ server:
 spring:
   application:
     name: petclinic-veterinarian-service
+  config:
+    import: 'configserver:'
   cloud:
     config:
       name: petclinic-service-common, ${spring.application.name}
       fail-fast: true
-  config:
-    import:
-      - optional:configserver:http://localhost:8888
+      discovery:
+        service-id: petclinic-config-server
+        enabled: true

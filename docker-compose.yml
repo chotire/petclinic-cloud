@@ -1,0 +1,96 @@
+version: '3.9'
+
+services:
+#  tracing-server:
+#    image: openzipkin/zipkin
+#    container_name: tracing-server
+#    mem_limit: 512M
+#    environment:
+#      - JAVA_OPTS=-XX:+UnlockExperimentalVMOptions -Djava.security.egd=file:/dev/./urandom
+#    ports:
+#      - 9411:9411
+#
+#  admin-server:
+#    image: springcommunity/spring-petclinic-admin-server
+#    container_name: admin-server
+#    mem_limit: 512M
+#    depends_on:
+#      - config-server
+#      - discovery-server
+#    entrypoint: ["./dockerize","-wait=tcp://discovery-server:8761","-timeout=60s","--","java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+#    ports:
+#      - 9090:9090
+
+  zookeeper-server:
+    image: bitnami/zookeeper:3.7.0
+    container_name: zookeeper-server
+    environment:
+      ZOO_ENABLE_AUTH: no
+      ALLOW_ANONYMOUS_LOGIN: yes
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    ports:
+      - '2181:2181'
+
+  kafka-server:
+    image: bitnami/kafka:2.8.0
+    container_name: kafka-server
+    environment:
+      KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper-server:2181
+      KAFKA_CFG_LISTENERS: PLAINTEXT://:9091
+      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://127.0.0.1:9091
+      ALLOW_PLAINTEXT_LISTENER: yes
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    ports:
+      - '9091:9091'
+    depends_on:
+      - zookeeper-server
+
+  zipkin-server:
+    image: openzipkin/zipkin:2.23.2
+    container_name: zipkin-server
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    environment:
+      - JAVA_OPTS=-XX:+UnlockExperimentalVMOptions -Djava.security.egd=file:/dev/./urandom
+    ports:
+      - '9411:9411'
+
+  ## H2 / Grafana / Prometheus
+  h2-server:
+    build: ./docker/h2
+    container_name: h2-server
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+    ports:
+      - '8082:8082'
+      - '9092:9092'
+
+  grafana-server:
+    build: ./docker/grafana
+    container_name: grafana-server
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+    ports:
+      - '3000:3000'
+
+  prometheus-server:
+    build: ./docker/prometheus
+    container_name: prometheus-server
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+    ports:
+      - '9090:9090'
